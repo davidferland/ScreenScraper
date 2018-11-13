@@ -22,8 +22,7 @@ namespace screenScraper
         async static Task MainAsync(string[] args)
         {
             var collectionPage = new string("https://www.onthewateroutfitters.com/collection/page{0}.html");
-            int collectionPageCount = 1;
-            List<Uri> productUrls = new List<Uri>();            
+            int collectionPageCount = 1;       
             HttpClient client = new HttpClient();
             SortedList<string, string> productList = new SortedList<string, string>();
 
@@ -58,7 +57,8 @@ namespace screenScraper
                 product.Title = pageDocument.DocumentNode.SelectNodes("//h1")
                                                          .First()
                                                          .InnerText;
-                // page info active
+
+                // page info active, get the HTML describing the product
                 if (pageDocument.DocumentNode.SelectNodes("//div[@class='page info active']/ul") != null)
                 {
                     product.Description = pageDocument.DocumentNode.SelectNodes("//div[@class='page info active']/ul")
@@ -67,28 +67,38 @@ namespace screenScraper
                 }
 
                 // Images
-                var productImages = pageDocument.DocumentNode.SelectNodes("//div[@class='images']/a")
+                var productImages = pageDocument.DocumentNode.SelectNodes("//div[@class='images']/a")                                                            
                                                              .ToList();
-                
+    
+
                 product.Images = new List<Image>();
-                Console.WriteLine("Title: " + product.Title);
-                Console.WriteLine("Description: " + product.Description);                 
+                //Console.WriteLine("Title: " + product.Title);
+                //Console.WriteLine("Description: " + product.Description);                 
 
                 foreach (var img in productImages)
                 {
+                    Console.WriteLine("=======================================================");
+                    Console.WriteLine(img.InnerHtml);
                     var firstImage = img.SelectNodes("//img").First();
                     var image = new Image();
                     image.ImageId = img.Attributes["data-image-id"].Value;
                     image.Title = firstImage.Attributes["alt"].Value; 
-                    image.src = firstImage.Attributes["src"].Value; ;
-                    image.alt = firstImage.Attributes["alt"].Value; ;
+                    image.Src = firstImage.Attributes["src"].Value; ;
+                    image.Alt = firstImage.Attributes["alt"].Value; ;
                     product.Images.Add(image);
-                    Console.WriteLine(image.src);
+                    Console.WriteLine("id: "+image.ImageId);
+                    Console.WriteLine("title: "+image.Title);
+                    Console.WriteLine("alt: "+image.Alt);
                 }
+
+                // <label for="product_configure_option_color"
                 // Colors
 
-
+                // <label for="product_configure_option_size"
                 // Sizes
+
+                // Categories
+                
             }  
             Console.ReadLine();
         }      

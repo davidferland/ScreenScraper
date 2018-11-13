@@ -8,7 +8,7 @@ namespace ScreenScraper.Model
 
         public System.Collections.Generic.List<string> Colors { get; set; }
         public System.Collections.Generic.List<string> Size { get; set; }
-
+        public System.Collections.Generic.List<string> Categories { get; set; }
         public System.Collections.Generic.List<Image> Images { get; set; }
         public string Availability { get; set; }
     }

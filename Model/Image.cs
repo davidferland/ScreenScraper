@@ -5,7 +5,7 @@ namespace ScreenScraper.Model
 
         public string ImageId {get; set;}
         public string Title { get; set; }
-        public string alt { get; set; }
-        public string src { get; set; }        
+        public string Alt { get; set; }
+        public string Src { get; set; }        
     }
 }
